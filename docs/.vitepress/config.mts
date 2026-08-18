@@ -7,17 +7,25 @@ import { defineConfig } from 'vitepress'
 const base = process.env.VITEPRESS_BASE ?? '/'
 
 const GITHUB_URL = 'https://github.com/tech-cats/hitsz-handbook-2026'
+const HIDDEN_SECTION_DIRS = new Set([
+  'guide/relationships',
+  'guide/fireside',
+])
+const HIDDEN_SECTION_GLOBS = [...HIDDEN_SECTION_DIRS].map((dir) => `${dir}/**`)
 
 /** 构建期统计站点数据：内容页数 + 最后更新时间（排除首页/404） */
 function collectSiteStats() {
   const docsDir = fileURLToPath(new URL('..', import.meta.url))
   let pages = 0
   let latest = 0
-  const walk = (dir: string) => {
+  const walk = (dir: string, relativeDir = '') => {
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const relativePath = relativeDir
+        ? `${relativeDir}/${entry.name}`
+        : entry.name
       if (entry.isDirectory()) {
-        if (entry.name.startsWith('.')) continue
-        walk(join(dir, entry.name))
+        if (entry.name.startsWith('.') || HIDDEN_SECTION_DIRS.has(relativePath)) continue
+        walk(join(dir, entry.name), relativePath)
       } else if (
         entry.name.endsWith('.md') &&
         !['index.md', '404.md'].includes(entry.name)
@@ -42,6 +50,8 @@ export default defineConfig({
   description: '哈尔滨工业大学（深圳）2026 新生手册',
   base,
   cleanUrls: true,
+  // 暂不发布“待人接物”与“围炉夜话”，源文件仍保留以便继续编辑。
+  srcExclude: HIDDEN_SECTION_GLOBS,
   lastUpdated: true,
   appearance: false,
   themeConfig: {
@@ -62,20 +72,6 @@ export default defineConfig({
             { text: '社群与平台、官方民间与…', link: '/guide/practical/communities' },
             { text: '选课与学分', link: '/guide/practical/course-selection' },
             { text: '先修、英语分级考、大一立项', link: '/guide/practical/pre-study' },
-          ],
-        },
-        {
-          text: '待人接物',
-          items: [
-            { text: '与人交流', link: '/guide/relationships/communication' },
-          ],
-        },
-        {
-          text: '围炉夜话',
-          items: [
-            { text: '时·时局之问', link: '/guide/fireside/current-affairs' },
-            { text: '时·求知、能力与AI', link: '/guide/fireside/knowledge-ai' },
-            { text: '时·自组织与识人', link: '/guide/fireside/self-organization' },
           ],
         },
         { text: '在最后之后', link: '/guide/afterword' },
