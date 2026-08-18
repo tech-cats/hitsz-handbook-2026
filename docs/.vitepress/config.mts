@@ -50,14 +50,35 @@ export default defineConfig({
     issues: `${GITHUB_URL}/issues`,
     nav: [
       { text: '首页', link: '/' },
-      { text: '指南', link: '/guide/hello' },
+      { text: '手册', link: '/guide/' },
     ],
     sidebar: {
       '/guide/': [
+        { text: '前言', link: '/guide/' },
         {
-          text: '指南',
-          items: [{ text: 'Hello, World', link: '/guide/hello' }],
+          text: '见招拆招',
+          items: [
+            { text: '手册', link: '/guide/practical/handbook' },
+            { text: '社群与平台、官方民间与…', link: '/guide/practical/communities' },
+            { text: '选课与学分', link: '/guide/practical/course-selection' },
+            { text: '先修、英语分级考、大一立项', link: '/guide/practical/pre-study' },
+          ],
         },
+        {
+          text: '待人接物',
+          items: [
+            { text: '与人交流', link: '/guide/relationships/communication' },
+          ],
+        },
+        {
+          text: '围炉夜话',
+          items: [
+            { text: '时·时局之问', link: '/guide/fireside/current-affairs' },
+            { text: '时·求知、能力与AI', link: '/guide/fireside/knowledge-ai' },
+            { text: '时·自组织与识人', link: '/guide/fireside/self-organization' },
+          ],
+        },
+        { text: '在最后之后', link: '/guide/afterword' },
       ],
     },
     outline: { label: '本页目录', level: [2, 3] },

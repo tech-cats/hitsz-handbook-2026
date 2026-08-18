@@ -17,13 +17,20 @@ pnpm docs:preview    # 本地预览构建产物
 
 Markdown 文件放在 `docs/` 下，导航与侧边栏在 `docs/.vitepress/config.mts` 中配置。
 
+源稿可按章节同步到文档站。迁移脚本只导入正文，不会导入标有“不进入正文”的讨论稿：
+
+```bash
+pnpm content:migrate ~/笔记/生存手册26/哈工深2026生存手册.md
+```
+
 ## 部署（GitHub Pages + CI/CD）
 
-1. 将仓库推送到 GitHub（main 分支）。
+1. 将仓库推送到 GitHub（`ci` 分支）。
 2. 仓库 Settings → Pages → **Build and deployment / Source** 选择 **GitHub Actions**。
-3. push 后由 `.github/workflows/deploy.yml` 自动构建并部署。
+3. push 后由 `.github/workflows/deploy.yml` 自动构建并部署；也可以在 Actions 页面手动运行。
 
-> 项目页（`https://<user>.github.io/<repo>/`）需将 `deploy.yml` 中的 `VITEPRESS_BASE` 改为 `/你的仓库名/`；部署到用户页（`<user>.github.io`）则删除该环境变量。
+工作流会根据仓库名自动设置 VitePress 的 `base`：普通仓库发布到
+`https://<owner>.github.io/<repo>/`，名为 `<owner>.github.io` 的仓库发布到站点根路径。
 
 ## 目录结构
 
