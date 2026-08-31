@@ -33,23 +33,24 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Consulta la config real de Pages: con dominio personalizado base_path
+      # es "/", sin él es "/<repo>". VitePress exige slash final.
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
       - name: Resolve Pages base path
         id: pages-base
         shell: bash
         run: |
-          if [[ "${{ github.event.repository.name }}" == *.github.io ]]; then
-            echo "base=/" >> "$GITHUB_OUTPUT"
-          else
-            echo "base=/${{ github.event.repository.name }}/" >> "$GITHUB_OUTPUT"
-          fi
+          base="${{ steps.pages.outputs.base_path }}"
+          [[ "$base" == */ ]] || base="$base/"
+          echo "base=$base" >> "$GITHUB_OUTPUT"
 
       - name: Build
         run: pnpm docs:build
         env:
           VITEPRESS_BASE: ${{ steps.pages-base.outputs.base }}
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
