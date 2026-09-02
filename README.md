@@ -28,7 +28,7 @@ MD_UPSTREAM=~/笔记/生存手册26/哈工深2026生存手册.md pnpm content:mi
 
 ## 部署（GitHub Pages + CI/CD）
 
-1. 将仓库推送到 GitHub（`ci` 分支）。
+1. 将仓库推送到 GitHub（`main` 分支）。
 2. 仓库 Settings → Pages → **Build and deployment / Source** 选择 **GitHub Actions**。
 3. push 后由 `.github/workflows/deploy.yml` 自动构建并部署；也可以在 Actions 页面手动运行。
 
