@@ -17,11 +17,14 @@ pnpm docs:preview    # 本地预览构建产物
 
 Markdown 文件放在 `docs/` 下，导航与侧边栏在 `docs/.vitepress/config.mts` 中配置。
 
-源稿可按章节同步到文档站。迁移脚本只导入正文，不会导入标有“不进入正文”的讨论稿：
+源稿可通过 `MD_UPSTREAM` 指定，迁移脚本按标题层级同步正文页面。`.env` 已被忽略，不会进入仓库：
 
 ```bash
-pnpm content:migrate ~/笔记/生存手册26/哈工深2026生存手册.md
+MD_UPSTREAM=~/笔记/生存手册26/哈工深2026生存手册.md pnpm content:migrate
 ```
+
+也可以把 `MD_UPSTREAM=/path/to/handbook.md` 写入本地 `.env`，然后直接运行 `pnpm content:migrate`。
+命令行路径的优先级最高，例如 `pnpm content:migrate /path/to/other.md` 可临时覆盖环境配置。
 
 ## 部署（GitHub Pages + CI/CD）
 
