@@ -65,6 +65,14 @@ export default defineConfig({
   appearance: false,
   markdown: {
     math: true,
+    config(md) {
+      for (const rule of ['math_inline', 'math_block'] as const) {
+        const render = md.renderer.rules[rule]
+        if (!render) continue
+        md.renderer.rules[rule] = (...args) =>
+          render(...args).replaceAll(' viewbox=', ' viewBox=')
+      }
+    },
   },
   themeConfig: {
     siteStats: collectSiteStats(),
