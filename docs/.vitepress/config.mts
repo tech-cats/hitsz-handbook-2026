@@ -63,6 +63,9 @@ export default defineConfig({
   srcExclude: HIDDEN_SECTION_GLOBS,
   lastUpdated: true,
   appearance: false,
+  markdown: {
+    math: true,
+  },
   themeConfig: {
     siteStats: collectSiteStats(),
     github: GITHUB_URL,
